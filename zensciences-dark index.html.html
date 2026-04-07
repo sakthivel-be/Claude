@@ -1,0 +1,1965 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zensciences — intellect. emotion. focus.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+
+  <style>
+  /* ═══════════════════════════════════════════════════════════════════
+     DESIGN SYSTEM — V5 · DARK PRIMARY
+     Default surface: #0E0E0C  (near-black)
+     Light breaks:    #F2F1ED  (warm cream) — About + Philosophy
+     Section depth:   #0A0A09 hero/footer · #111110 primary · #171715 elevated
+     Accent:          #1A56FF electric blue — used sparingly
+  ═══════════════════════════════════════════════════════════════════ */
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { font-size: 16px; scroll-behavior: smooth; }
+  body {
+    background: #0E0E0C;
+    color: #E8E7E2;
+    font-family: 'Archivo', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+  a { color: inherit; text-decoration: none; }
+  img { display: block; max-width: 100%; }
+
+  :root {
+    /* DARK SURFACES */
+    --bg:      #0E0E0C;   /* primary surface */
+    --bg-deep: #0A0A09;   /* deepest (hero, footer) */
+    --bg-mid:  #111110;   /* mid dark (sections) */
+    --bg-lift: #171715;   /* slightly lifted dark */
+    /* LIGHT BREAKS */
+    --bg-lt:   #F2F1ED;   /* warm cream (About, Phi) */
+    /* TEXT — DARK SURFACE */
+    --ink:     #E8E7E2;   /* primary text on dark */
+    --muted:   #5A5A55;   /* secondary text on dark */
+    --faint:   #2C2C29;   /* separator/faint on dark */
+    /* TEXT — LIGHT SURFACE */
+    --ink-d:   #0E0E0C;   /* primary text on light */
+    --muted-d: #888882;   /* secondary text on light */
+    --faint-d: #C4C4BF;   /* separator on light */
+    /* ACCENT */
+    --accent:  #1A56FF;
+    --white:   #FFFFFF;
+    /* TYPOGRAPHY */
+    --f-q:  'Archivo', sans-serif;
+    --f-dm: 'DM Sans', sans-serif;
+    --f-m:  'Space Mono', monospace;
+    /* SPACING (8px base) */
+    --s1:8px; --s2:16px; --s3:24px; --s4:32px; --s5:40px;
+    --s6:48px; --s7:56px; --s8:64px; --s9:80px; --s10:96px;
+    --s11:120px; --s12:160px;
+    --mw: 1280px;
+    --px: clamp(24px, 6.25vw, 80px);
+  }
+
+  /* All sections follow hero's full-width var(--px) alignment */
+  .C { max-width: 100%; padding: 0 var(--px); }
+
+  /* ── Shared type utilities ── */
+  .label {
+    font-family: var(--f-m); font-size: 10px; font-weight: 400;
+    letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--muted); display: block;
+  }
+  .label--accent { color: var(--accent); }
+  .label--lt     { color: var(--muted-d); }  /* for use on light sections */
+
+  .adot {
+    display: inline-block; width: 6px; height: 6px; border-radius: 50%;
+    background: var(--accent); margin-left: 2px; vertical-align: middle; flex-shrink: 0;
+  }
+
+  /* ── Scroll reveal ── */
+  .sr { opacity: 0; transform: translateY(20px);
+    transition: opacity 0.75s cubic-bezier(0.22,1,0.36,1), transform 0.75s cubic-bezier(0.22,1,0.36,1); }
+  .sr.on { opacity: 1; transform: none; }
+  .sr-d1 { transition-delay: 0.08s; }
+  .sr-d2 { transition-delay: 0.16s; }
+  .sr-d3 { transition-delay: 0.24s; }
+  .sr-d4 { transition-delay: 0.32s; }
+
+  /* ── CTA SYSTEM ──
+     On dark surfaces: btn-filled = light fill, btn-ghost = subtle outline
+     On light surfaces: use btn-filled-dk, btn-ghost-dk              */
+  .btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-family: var(--f-m); font-size: 10px; font-weight: 700;
+    letter-spacing: 0.13em; text-transform: uppercase;
+    padding: 14px 28px; border-radius: 100px;
+    white-space: nowrap; width: fit-content;
+    transition: gap 0.32s cubic-bezier(0.22,1,0.36,1),
+                background 0.22s, color 0.22s, border-color 0.22s,
+                transform 0.22s, box-shadow 0.22s;
+  }
+  .btn:hover { transform: translateY(-1px); }
+
+  /* Primary on dark: white fill */
+  .btn-filled {
+    background: #E8E7E2; color: #0E0E0C; border: 1px solid #E8E7E2;
+  }
+  .btn-filled:hover { background: #ffffff; gap: 16px; box-shadow: 0 6px 20px rgba(0,0,0,0.4); }
+
+  /* Primary on light: dark fill */
+  .btn-filled-dk {
+    background: #0E0E0C; color: #E8E7E2; border: 1px solid #0E0E0C;
+  }
+  .btn-filled-dk:hover { background: #2a2a28; gap: 16px; box-shadow: 0 6px 20px rgba(14,14,12,0.22); }
+
+  /* Ghost on dark */
+  .btn-ghost {
+    background: transparent; border: 1px solid rgba(255,255,255,0.16); color: rgba(255,255,255,0.7);
+  }
+  .btn-ghost:hover { background: rgba(255,255,255,0.08); color: #fff; gap: 16px; border-color: rgba(255,255,255,0.35); }
+
+  /* Ghost on light */
+  .btn-ghost-lt {
+    background: transparent; border: 1px solid rgba(14,14,12,0.2); color: #0E0E0C;
+  }
+  .btn-ghost-lt:hover { background: #0E0E0C; color: #E8E7E2; gap: 16px; border-color: #0E0E0C; }
+
+  /* Naked text link */
+  .tlink {
+    font-family: var(--f-m); font-size: 10px; font-weight: 400;
+    letter-spacing: 0.13em; text-transform: uppercase;
+    color: var(--muted); display: inline-flex; align-items: center; gap: 8px;
+    width: fit-content;
+    transition: color 0.2s, gap 0.32s cubic-bezier(0.22,1,0.36,1);
+  }
+  .tlink:hover { color: var(--ink); gap: 14px; }
+  .tlink--lt { color: var(--muted-d); }
+  .tlink--lt:hover { color: var(--ink-d); gap: 14px; }
+  .tlink--accent { color: var(--accent); }
+  .tlink--accent:hover { color: #0040dd; gap: 14px; }
+
+  /* ═══════════════════════════════════════════════
+     NAVIGATION — dark frosted
+  ═══════════════════════════════════════════════ */
+  .nav {
+    position: fixed; inset: 0 0 auto 0; z-index: 500; height: 64px;
+    background: rgba(12,12,10,0.88);
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .nav__in {
+    max-width: var(--mw); margin: 0 auto; padding: 0 var(--px);
+    height: 100%; display: flex; align-items: center; justify-content: space-between;
+  }
+  .nav__logo {
+    font-family: var(--f-dm); font-size: 15px; font-weight: 600;
+    letter-spacing: -0.02em; color: var(--ink);
+    display: flex; align-items: center; gap: 6px;
+  }
+  .nav__links { display: flex; align-items: center; gap: 36px; list-style: none; }
+  .nav__links a {
+    font-family: var(--f-dm); font-size: 13px; font-weight: 400;
+    color: var(--muted); letter-spacing: -0.01em; transition: color 0.2s;
+  }
+  .nav__links a:hover { color: var(--ink); }
+  .nav__act {
+    font-family: var(--f-m); font-size: 10px; font-weight: 700;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 10px 20px; border: 1px solid rgba(255,255,255,0.16);
+    border-radius: 100px; color: rgba(255,255,255,0.7);
+    transition: all 0.22s;
+  }
+  .nav__act:hover { background: var(--ink); color: #0E0E0C; border-color: var(--ink); transform: translateY(-1px); }
+
+  /* ═══════════════════════════════════════════════
+     S1 — HERO · Full-bleed image overlay
+  ═══════════════════════════════════════════════ */
+  .hero {
+    min-height: 100svh; position: relative;
+    display: flex; flex-direction: column;
+    overflow: hidden; background: #000;
+  }
+  /* ── GIF stack — right half, both layers stacked ── */
+  .hero__gif {
+    position: absolute;
+    right: 0; top: 0; bottom: 0;
+    width: 52%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center right;
+    pointer-events: none;
+    user-select: none;
+    transition: opacity 0.8s cubic-bezier(0.4,0,0.2,1);
+  }
+  /* both layers stacked; JS toggles .gif-active */
+  .hero__gif--a,
+  .hero__gif--b { z-index: 1; opacity: 0; }
+  .hero__gif--a { opacity: 1; }               /* GIF 1 starts visible */
+  .hero__gif--b { z-index: 2; }               /* GIF 2 sits on top    */
+  .hero__gif--b.gif-active  { opacity: 1; }   /* GIF 2 comes in       */
+  .hero__gif--a.gif-inactive { opacity: 0; }  /* GIF 1 goes out       */
+
+  /* ── GIF 3 — full-bleed bg ambience, fades in after first cycle ── */
+  .hero__gif--c {
+    position: absolute;
+    inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover; object-position: center;
+    pointer-events: none; user-select: none;
+    z-index: 0;
+    opacity: 0;
+    mix-blend-mode: screen;
+    transition: opacity 2s cubic-bezier(0.4,0,0.2,1);
+  }
+  .hero__gif--c.gif-active { opacity: 0.18; }
+  /* ── overlay: solid-black left guard + soft right fade + bottom darkener ── */
+  .hero__overlay {
+    position: absolute; inset: 0; z-index: 1;
+    background:
+      linear-gradient(to right,
+        #000 0%,
+        #000 38%,
+        rgba(0,0,0,0.75) 52%,
+        rgba(0,0,0,0.20) 72%,
+        transparent 100%
+      ),
+      linear-gradient(to top,
+        rgba(0,0,0,0.95) 0%,
+        rgba(0,0,0,0.40) 22%,
+        transparent 50%
+      );
+  }
+  /* ── content row — text left-anchored ── */
+  .hero__l {
+    position: relative; z-index: 3;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: calc(64px + 56px) var(--px) 52px;
+    width: 100%;
+  }
+  /* ── text stack — constrained to left 44% so GIF never overlaps ── */
+  .hero__text {
+    display: flex; flex-direction: column;
+    align-items: flex-start;
+    max-width: 44%;
+  }
+
+  /* ── Composition leading lines — full-bleed SVG overlay ── */
+  /* "focus." accent word in hero headline */
+  .hero__focus { color: var(--accent); }
+  .hero__kicker {
+    display: flex; align-items: center; gap: 10px; margin-bottom: 24px;
+    opacity: 0; animation: fadeUp 0.8s 0.05s cubic-bezier(0.22,1,0.36,1) forwards;
+  }
+  .hero__h1 {
+    font-family: var(--f-q); font-size: clamp(56px, 8.5vw, 116px); font-weight: 300;
+    line-height: 0.94; letter-spacing: -0.03em; color: #fff;
+    margin-bottom: 28px; text-align: left;
+  }
+  /* row-1: intellect + emotion side by side */
+  .hero__h1 .row1 {
+    display: block; opacity: 0;
+    animation: fadeUp 0.9s 0.10s cubic-bezier(0.22,1,0.36,1) forwards;
+    white-space: nowrap;
+  }
+  /* row-2: focus alone */
+  .hero__h1 .row2 {
+    display: block; opacity: 0;
+    animation: fadeUp 0.9s 0.24s cubic-bezier(0.22,1,0.36,1) forwards;
+  }
+
+  @keyframes fadeUp { from { opacity:0; transform:translateY(28px); } to { opacity:1; transform:none; } }
+
+  .hero__desc {
+    font-family: var(--f-dm); font-size: clamp(16px, 1.3vw, 20px); font-weight: 300;
+    color: rgba(255,255,255,0.52); line-height: 1.7; max-width: 400px;
+    margin-bottom: 36px; text-align: left; opacity: 0;
+    animation: fadeUp 0.8s 0.40s cubic-bezier(0.22,1,0.36,1) forwards;
+  }
+  .hero__foot {
+    display: flex; align-items: center; justify-content: flex-start; gap: 16px;
+    opacity: 0; animation: fadeUp 0.8s 0.52s cubic-bezier(0.22,1,0.36,1) forwards; flex-wrap: wrap;
+  }
+  .hero__cta-link {
+    font-family: var(--f-m); font-size: 10px; font-weight: 700;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 16px 32px; background: #fff; border: 1px solid #fff;
+    border-radius: 100px; color: #0E0E0C; white-space: nowrap;
+    transition: gap 0.35s cubic-bezier(0.22,1,0.36,1), background 0.22s, transform 0.22s, box-shadow 0.22s;
+  }
+  .hero__cta-link:hover { background: rgba(255,255,255,0.9); gap: 18px; transform: translateY(-1px); box-shadow: 0 8px 24px rgba(0,0,0,0.35); }
+  .hero__cta-secondary {
+    font-family: var(--f-m); font-size: 10px; font-weight: 400;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 16px 28px; border: 1px solid rgba(255,255,255,0.22);
+    border-radius: 100px; color: rgba(255,255,255,0.70); white-space: nowrap;
+    transition: gap 0.35s, color 0.2s, border-color 0.2s, transform 0.22s;
+  }
+  .hero__cta-secondary:hover { color:#fff; border-color:rgba(255,255,255,0.5); gap:14px; transform:translateY(-1px); }
+  .hero__bottom-strip {
+    position: relative; z-index: 3; padding: 0 var(--px);
+    border-top: 1px solid rgba(255,255,255,0.08);
+    opacity: 0; animation: fadeUp 0.8s 0.70s cubic-bezier(0.22,1,0.36,1) forwards;
+  }
+  /* strip — single row: awards LEFT · scroll RIGHT */
+  .hero__strip-top {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 0 22px;
+  }
+  .hero__strip-awards {
+    display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  }
+  .hero__aw-label { flex-shrink: 0; }
+  .aw-tag {
+    font-family: var(--f-m); font-size: 9px; font-weight: 400;
+    letter-spacing: 0.13em; text-transform: uppercase;
+    color: rgba(255,255,255,0.35); padding: 5px 12px;
+    border: 1px solid rgba(255,255,255,0.12); border-radius: 100px;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .aw-tag:hover { color: rgba(255,255,255,0.72); border-color: rgba(255,255,255,0.28); }
+  .hero__scroll-label {
+    font-family: var(--f-m); font-size: 10px; font-weight: 400;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: rgba(255,255,255,0.30); display: flex; align-items: center; gap: 8px;
+    flex-shrink: 0;
+  }
+  .scroll-arrow { font-size: 11px; color: rgba(255,255,255,0.22); display: inline-block; animation: bounceDown 2.2s ease-in-out infinite; }
+  @keyframes bounceDown { 0%,100% { transform:translateY(0); } 50% { transform:translateY(4px); } }
+
+  /* ═══════════════════════════════════════════════
+     SECTION BREAK ACCENT — thin blue top rule
+     Applied to 2 key sections for hierarchy signal
+  ═══════════════════════════════════════════════ */
+  .section-accent-top {
+    border-top: 1px solid rgba(26,86,255,0.35) !important;
+  }
+
+  /* ═══════════════════════════════════════════════
+     S2 — ABOUT · LIGHT BREAK 1
+     Background: warm cream #F2F1ED
+     Layout: label full-width top → headline + body side by side
+  ═══════════════════════════════════════════════ */
+  /* ═══════════════════════════════════════════════
+     S2 — ABOUT · LIGHT BREAK 1 · editorial redesign
+  ═══════════════════════════════════════════════ */
+  /* ── About · dark · image blend ── */
+  .about {
+    position: relative;
+    padding: var(--s11) 0 var(--s12) 0;
+    overflow: hidden;
+    background: #070707;
+  }
+
+  /* GIF bg removed from about */
+  .about__bg-img { display: none; }
+  /* about .C needs z-index above the bg image */
+  .about > .C {
+    position: relative; z-index: 2;
+  }
+
+  /* ── meta bar ── */
+  .about__meta {
+    display: flex; align-items: center; justify-content: space-between;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    margin-bottom: clamp(32px, 4vw, 48px);
+  }
+  .about__meta-label {
+    display: flex; align-items: center; gap: 10px;
+  }
+  .about__meta-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--accent); flex-shrink: 0;
+  }
+  .about__meta-tag {
+    font-family: var(--f-m); font-size: 10px; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--ink); opacity: 0.45;
+  }
+  .about__meta-num {
+    font-family: var(--f-m); font-size: 10px; letter-spacing: 0.12em;
+    color: var(--ink); opacity: 0.22;
+  }
+
+  /* ── main grid ── */
+  .about__grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    column-gap: 24px;
+  }
+
+  /* ── headline col (left, wider) ── */
+  .about__head-col {
+    grid-column: 1 / 7; grid-row: 1;
+    align-self: start;
+  }
+  .about__h2 {
+    font-family: var(--f-q);
+    font-size: clamp(42px, 5.5vw, 76px);
+    font-weight: 600;
+    line-height: 1.02;
+    letter-spacing: -0.03em;
+    color: #fff;
+    max-width: 14ch;
+    text-align: left;
+  }
+  /* no indent — strict left align */
+  .about__h2 .indent { display: inline; margin-left: 0; }
+
+  /* ── body col (right) ── */
+  .about__body-col {
+    grid-column: 7 / 13; grid-row: 1;
+    align-self: start;
+    display: flex; flex-direction: column; align-items: flex-start;
+    padding-top: 0;
+    padding-left: 32px;
+  }
+  .about__body {
+    font-family: var(--f-dm); font-size: clamp(15px, 1.1vw, 18px); font-weight: 300;
+    color: var(--muted); line-height: 1.78;
+    max-width: 40ch; margin-bottom: 24px;
+  }
+
+  /* ── stat chips ── */
+  .about__stats {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    margin-bottom: 24px;
+  }
+  .about__stat {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 7px 14px;
+    border: 1px solid rgba(255,255,255,0.14);
+    border-radius: 100px;
+    font-family: var(--f-m); font-size: 9px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: rgba(255,255,255,0.6);
+  }
+  .about__stat-val {
+    font-weight: 700; color: var(--accent);
+  }
+
+  /* ── pill CTA on dark ── */
+  .btn-pill-dk {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 13px 26px;
+    background: #fff; color: #0E0E0C;
+    border: 1px solid #fff;
+    border-radius: 100px;
+    font-family: var(--f-m); font-size: 10px; letter-spacing: 0.12em;
+    text-transform: uppercase; text-decoration: none;
+    transition: background 0.2s, color 0.2s, border-color 0.2s, transform 0.2s;
+  }
+  .btn-pill-dk:hover {
+    background: var(--accent); border-color: var(--accent); color: #fff;
+    transform: translateY(-1px);
+  }
+
+  /* ═══════════════════════════════════════════════
+     S3 — SERVICES · Sticky scroll split layout
+  ═══════════════════════════════════════════════ */
+  .services { background: #050505; position: relative; }
+
+  .services__sticky {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 46% 54%;
+    overflow: hidden;
+  }
+
+  /* ── Left: image panel ── */
+  .services__img-col {
+    padding: 40px 20px 40px 48px;
+    display: flex;
+    align-items: center;
+  }
+  .services__img-wrap {
+    width: 100%;
+    height: calc(100vh - 80px);
+    border-radius: 14px;
+    overflow: hidden;
+    position: relative;
+  }
+  .services__img-gif {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    background: #000;
+  }
+  .services__img-gif img {
+    width: auto; height: auto;
+    max-width: none; max-height: none;
+    display: block;
+    pointer-events: none;
+    draggable: false;
+  }
+
+  /* ── Right: content col ── */
+  .services__content-col {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 40px 48px 40px 32px;
+    overflow: hidden;
+  }
+
+  .services__eyebrow { margin-bottom: 14px; }
+  .services__h2 {
+    font-family: var(--f-q);
+    font-size: clamp(26px, 3vw, 44px);
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.025em;
+    color: var(--ink);
+    max-width: 16ch;
+    margin-bottom: 14px;
+  }
+  .services__intro {
+    font-family: var(--f-dm);
+    font-size: clamp(14px, 1.1vw, 17px);
+    font-weight: 300;
+    color: var(--muted);
+    line-height: 1.75;
+    max-width: 38ch;
+    margin-bottom: 22px;
+  }
+
+  /* ── Nav list ── */
+  .svc-nav {
+    position: relative;
+    margin-top: 24px;
+    border-top: 1px solid rgba(255,255,255,0.07);
+  }
+  .svc-nav__counter {
+    position: absolute;
+    right: 0; top: 0;
+    transform: translateY(calc(-100% - 8px));
+    font-family: var(--f-m);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    color: rgba(255,255,255,0.22);
+  }
+  .svc-nav__list { list-style: none; }
+  .svc-nav__item {
+    padding: 13px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    cursor: pointer;
+    transition: border-color 0.3s;
+  }
+  .svc-nav__row {
+    display: flex; align-items: center; gap: 10px;
+  }
+  .svc-nav__arrow {
+    width: 18px; flex-shrink: 0;
+    font-size: 14px; color: var(--accent);
+    opacity: 0;
+    transform: translateX(-6px);
+    transition: opacity 0.3s, transform 0.35s cubic-bezier(0.22,1,0.36,1);
+  }
+  .svc-nav__item.active .svc-nav__arrow { opacity: 1; transform: translateX(0); }
+  .svc-nav__label {
+    font-family: var(--f-q);
+    font-size: clamp(18px, 1.8vw, 26px);
+    font-weight: 300;
+    color: rgba(255,255,255,0.22);
+    transition: color 0.3s;
+    line-height: 1.2;
+  }
+  .svc-nav__item.active .svc-nav__label { color: #fff; font-weight: 500; }
+  .svc-nav__item:not(.active):hover .svc-nav__label { color: rgba(255,255,255,0.55); }
+  .svc-nav.scrolled .svc-nav__item.active { border-bottom-color: rgba(255,255,255,0.9); }
+
+  /* ── Inline expand content ── */
+  .svc-nav__content {
+    padding-left: 28px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.55s cubic-bezier(0.22,1,0.36,1), opacity 0.4s;
+    opacity: 0;
+  }
+  .svc-nav__item.active .svc-nav__content {
+    max-height: 160px;
+    opacity: 1;
+  }
+  .svc-nav__desc {
+    font-family: var(--f-dm);
+    font-size: clamp(13px, 1vw, 16px);
+    font-weight: 300;
+    color: var(--muted);
+    line-height: 1.75;
+    padding: 10px 0 20px;
+    max-width: 46ch;
+  }
+
+  /* ═══════════════════════════════════════════════
+     S4 — WORK · Horizontal process step cards
+  ═══════════════════════════════════════════════ */
+  .work { padding: var(--s11) 0; background: #000; position: relative; overflow: hidden; }
+  .work__bg-gif {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 44%;
+    height: auto;
+    max-width: none;
+    mix-blend-mode: screen;
+    opacity: 0.13;
+    pointer-events: none;
+    z-index: 0;
+    user-select: none;
+  }
+  .work > .C { position: relative; z-index: 1; }
+  .work__head {
+    display: grid; grid-template-columns: repeat(12,1fr); column-gap: 32px;
+    align-items: baseline; margin-bottom: 56px;
+  }
+  .work__hl-col { grid-column: 1/8; }
+  .work__link-col { grid-column: 10/13; display:flex;align-items:flex-end;justify-content:flex-end; }
+  .work__eyebrow { margin-bottom: 16px; }
+  .work__h2 {
+    font-family:var(--f-q);font-size:clamp(32px,4vw,52px);font-weight:600;
+    line-height:1.06;letter-spacing:-0.025em;color:var(--ink);max-width:14ch;text-align:left;
+  }
+
+  /* ── Horizontal card grid ── */
+  .work-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border-top: 1px solid rgba(255,255,255,0.09);
+    border-bottom: 1px solid rgba(255,255,255,0.09);
+    border-left: 1px solid rgba(255,255,255,0.09);
+  }
+
+  /* ── Individual card ── */
+  .work-card {
+    border-right: 1px solid rgba(255,255,255,0.09);
+    display: flex; flex-direction: column;
+    min-height: 600px;
+    position: relative; overflow: hidden;
+    cursor: pointer;
+    background: transparent;
+    transition: background 0.5s cubic-bezier(0.22,1,0.36,1);
+  }
+  .work-card:hover,
+  .work-card:focus-visible { background: rgba(255,255,255,0.025); outline: none; }
+
+  /* ── Step label — vertical rotated in left gutter ── */
+  .work-card__top {
+    display: flex; align-items: flex-start;
+    padding: 28px 20px 0 20px;
+    margin-bottom: 0;
+    height: 88px;
+    flex-shrink: 0;
+  }
+  .work-card__step {
+    font-family: var(--f-m); font-size: 9px;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: rgba(255,255,255,0.22);
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    transform: rotate(180deg);
+    user-select: none;
+    transition: color 0.3s;
+  }
+  .work-card:hover .work-card__step,
+  .work-card:focus-visible .work-card__step { color: rgba(255,255,255,0.45); }
+
+  /* ── Body: title always visible, rest revealed ── */
+  .work-card__body {
+    padding: 0 24px 24px 24px;
+    flex: 1; display: flex; flex-direction: column;
+  }
+  .work-card__title {
+    font-family: var(--f-q); font-size: clamp(13px, 1.15vw, 16px);
+    font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+    color: #fff; line-height: 1.25;            /* white by default */
+    margin-bottom: 0;
+    transition: color 0.3s;
+  }
+  .work-card:hover .work-card__title,
+  .work-card:focus-visible .work-card__title { color: var(--accent); } /* blue on hover */
+
+  /* ── Reveal block: hidden by default, shown on hover ── */
+  .work-card__reveal {
+    flex: 1; display: flex; flex-direction: column;
+    opacity: 0;
+    transform: translateY(14px);
+    transition:
+      opacity 0.42s cubic-bezier(0.22,1,0.36,1),
+      transform 0.42s cubic-bezier(0.22,1,0.36,1);
+    pointer-events: none;
+  }
+  .work-card:hover .work-card__reveal,
+  .work-card:focus-visible .work-card__reveal {
+    opacity: 1; transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  .work-card__divider {
+    width: 100%; height: 1px;
+    background: rgba(255,255,255,0.08);
+    margin: 20px 0;
+  }
+  .work-card__desc {
+    font-family: var(--f-dm); font-size: clamp(12px, 0.9vw, 14px);
+    font-weight: 300; line-height: 1.72;
+    color: rgba(255,255,255,0.88);             /* white */
+    margin-bottom: 16px;
+  }
+  .work-card__bullets {
+    list-style: none; padding: 0; margin: 0 0 20px;
+  }
+  .work-card__bullets li {
+    font-family: var(--f-dm); font-size: 12px;
+    font-weight: 300; color: rgba(255,255,255,0.55);  /* lighter grey → white */
+    line-height: 1.65; padding: 3px 0 3px 16px;
+    position: relative;
+  }
+  .work-card__bullets li::before {
+    content: '—'; position: absolute; left: 0;
+    color: rgba(255,255,255,0.28); font-size: 10px;
+  }
+
+  /* ── Image — pushed to bottom, reveals on hover ── */
+  .work-card__img {
+    margin-top: auto;
+    overflow: hidden; flex-shrink: 0;
+    height: 0;
+    transition: height 0.55s cubic-bezier(0.22,1,0.36,1);
+  }
+  .work-card:hover .work-card__img,
+  .work-card:focus-visible .work-card__img { height: 160px; }
+  .work-card__img-inner {
+    width: 100%; height: 160px;
+    background: transparent;
+    position: relative; overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+    padding: 0 16px 16px;
+  }
+  .work-card__gif { display: none; }
+
+  /* ── Lucide stroke icons in hover panel ── */
+  .work-card__svg-icon {
+    width: 108px; height: 108px;
+    max-width: calc(100% - 24px);
+    max-height: calc(100% - 24px);
+    flex-shrink: 0;
+    color: rgba(255,255,255,0.18);
+    transition: color 0.4s, filter 0.4s, transform 0.5s cubic-bezier(0.22,1,0.36,1);
+  }
+  .work-card:hover .work-card__svg-icon {
+    color: rgba(255,255,255,0.78);
+    filter: drop-shadow(0 0 16px rgba(26,86,255,0.35));
+    transform: scale(1.04);
+  }
+
+  /* stroke-draw — hidden by default */
+  .work-card__svg-icon path,
+  .work-card__svg-icon circle,
+  .work-card__svg-icon line,
+  .work-card__svg-icon polygon,
+  .work-card__svg-icon polyline,
+  .work-card__svg-icon rect {
+    stroke-dasharray: 600;
+    stroke-dashoffset: 600;
+    transition: stroke-dashoffset 0.2s ease 0s;
+  }
+  /* draw fires in parallel with card open */
+  .work-card:hover .work-card__svg-icon path,
+  .work-card:hover .work-card__svg-icon circle,
+  .work-card:hover .work-card__svg-icon line,
+  .work-card:hover .work-card__svg-icon polygon,
+  .work-card:hover .work-card__svg-icon polyline,
+  .work-card:hover .work-card__svg-icon rect {
+    stroke-dashoffset: 0;
+    transition: stroke-dashoffset 2s cubic-bezier(0.4,0,0.2,1) 0s;
+  }
+  .work-card:hover .work-card__svg-icon *:nth-child(2) { transition-delay: 0.08s; }
+  .work-card:hover .work-card__svg-icon *:nth-child(3) { transition-delay: 0.16s; }
+  .work-card:hover .work-card__svg-icon *:nth-child(4) { transition-delay: 0.24s; }
+
+  /* ── Footer icons ── */
+  .work-card__footer {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 14px 20px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    flex-shrink: 0;
+  }
+  .work-card__icon {
+    width: 16px; height: 16px;
+    color: rgba(255,255,255,0.18);
+    display: flex; align-items: center; justify-content: center;
+    transition: color 0.3s;
+  }
+  .work-card:hover .work-card__icon,
+  .work-card:focus-visible .work-card__icon { color: rgba(255,255,255,0.4); }
+  .work-card__icon svg { width: 100%; height: 100%; }
+
+  /* ═══════════════════════════════════════════════
+     S5 — CLIENTS · Auto-scroll marquee
+  ═══════════════════════════════════════════════ */
+  .clients { background: var(--bg-lift); padding: var(--s11) 0; }
+  .clients__top {
+    display: grid; grid-template-columns: repeat(12,1fr); column-gap: 32px;
+    margin-bottom: 56px; align-items: end;
+  }
+  .clients__hl-col { grid-column: 1/8; }
+  .clients__eyebrow { margin-bottom: 16px; }
+  .clients__h2 {
+    font-family: var(--f-q); font-size: clamp(28px, 3.6vw, 52px); font-weight: 600;
+    line-height: 1.06; letter-spacing: -0.025em; color: var(--ink); text-align: left;
+  }
+
+  /* Auto-scroll marquee strip */
+  @keyframes marqueeScroll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+  .clients-scroll {
+    overflow: hidden;
+    border-top: 1px solid rgba(255,255,255,0.07);
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+  }
+  .clients-track {
+    display: flex; align-items: center;
+    width: max-content;
+    animation: marqueeScroll 40s linear infinite;
+  }
+  .clients-scroll:hover .clients-track { animation-play-state: paused; }
+  .cl-name {
+    font-family: var(--f-m); font-size: 9px; font-weight: 400;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: rgba(255,255,255,0.28); padding: 18px 36px;
+    border-right: 1px solid rgba(255,255,255,0.07);
+    white-space: nowrap; flex-shrink: 0;
+    transition: color 0.2s;
+    cursor: default;
+  }
+  .cl-name:hover { color: rgba(255,255,255,0.7); }
+
+  /* ═══════════════════════════════════════════════
+     S6 — ENGAGEMENT · Split layout · expand rows
+  ═══════════════════════════════════════════════ */
+  .engage { padding: var(--s11) 0; background: #fff; }
+  .engage__layout {
+    display: grid;
+    grid-template-columns: 5fr 7fr;
+    gap: clamp(48px, 6vw, 96px);
+    align-items: start;
+  }
+  .engage__left { position: sticky; top: 88px; }
+  .engage__eyebrow { margin-bottom: 20px; color: rgba(0,0,0,0.4); }
+  .engage__h2 {
+    font-family: var(--f-q);
+    font-size: clamp(28px, 3.6vw, 52px);
+    font-weight: 600;
+    line-height: 1.06;
+    letter-spacing: -0.025em;
+    color: #0a0a0a;
+    max-width: 16ch;
+    margin-bottom: 20px;
+  }
+  .engage__sub {
+    font-family: var(--f-dm);
+    font-size: 15px;
+    font-weight: 300;
+    color: rgba(0,0,0,0.5);
+    line-height: 1.75;
+    max-width: 34ch;
+    margin-bottom: 28px;
+  }
+  .engage__link { color: var(--accent) !important; }
+
+  /* ── Expandable rows ── */
+  .engage-rows {
+    border-top: 1px solid rgba(0,0,0,0.08);
+  }
+  .engage-row {
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+    position: relative;
+    overflow: hidden;
+    cursor: default;
+  }
+  /* left accent bar on hover */
+  .engage-row::after {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 2px;
+    background: var(--accent);
+    transform: scaleY(0);
+    transform-origin: bottom;
+    transition: transform 0.4s cubic-bezier(0.22,1,0.36,1);
+  }
+  .engage-row:hover::after { transform: scaleY(1); }
+  /* subtle bg fill */
+  .engage-row::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(90deg, rgba(26,86,255,0.04) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+  .engage-row:hover::before { opacity: 1; }
+
+  .engage-row__head {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 28px 0 28px 16px;
+    position: relative; z-index: 1;
+  }
+  .engage-row__num {
+    font-family: var(--f-q);
+    font-size: clamp(44px, 5.5vw, 76px);
+    font-weight: 700;
+    line-height: 1;
+    color: rgba(0,0,0,0.06);
+    flex-shrink: 0;
+    width: clamp(56px, 7vw, 92px);
+    transition: color 0.4s;
+    letter-spacing: -0.04em;
+  }
+  .engage-row:hover .engage-row__num { color: rgba(26,86,255,0.18); }
+
+  .engage-row__title {
+    flex: 1;
+    font-family: var(--f-q);
+    font-size: clamp(20px, 2.2vw, 30px);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    color: rgba(0,0,0,0.4);
+    transition: color 0.3s;
+  }
+  .engage-row:hover .engage-row__title { color: #0a0a0a; }
+
+  .engage-row__icon {
+    width: 36px; height: 36px;
+    border: 1px solid rgba(0,0,0,0.12);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    transition: border-color 0.3s, background 0.3s, transform 0.4s cubic-bezier(0.22,1,0.36,1);
+    font-size: 14px;
+    color: rgba(0,0,0,0.25);
+  }
+  .engage-row:hover .engage-row__icon {
+    border-color: var(--accent);
+    color: var(--accent);
+    transform: rotate(45deg);
+    background: rgba(26,86,255,0.06);
+  }
+
+  /* expand body */
+  .engage-row__body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.55s cubic-bezier(0.22,1,0.36,1);
+    padding-left: calc(16px + clamp(56px,7vw,92px) + 20px);
+    position: relative; z-index: 1;
+  }
+  .engage-row:hover .engage-row__body { max-height: 140px; }
+  .engage-row__desc {
+    font-family: var(--f-dm);
+    font-size: clamp(14px, 1vw, 16px);
+    font-weight: 300;
+    color: rgba(0,0,0,0.5);
+    line-height: 1.75;
+    max-width: 42ch;
+    padding-bottom: 28px;
+  }
+
+  /* ═══════════════════════════════════════════════
+     S7 — PHILOSOPHY · LIGHT BREAK 2
+     Background: warm cream — creates mid-page pause
+  ═══════════════════════════════════════════════ */
+  .phi {
+    background: var(--bg-lt);
+    padding: var(--s11) 0;
+    border-bottom: 1px solid rgba(14,14,12,0.08);
+  }
+  .phi__grid { display:grid;grid-template-columns:repeat(12,1fr);column-gap:32px;align-items:start; }
+  .phi__label-col { grid-column:1/4;padding-top:6px;display:flex;flex-direction:column; }
+  .phi__deco-mark {
+    font-family:var(--f-q);font-size:96px;font-weight:600;
+    color:rgba(14,14,12,0.06);line-height:0.8;letter-spacing:-0.04em;
+    margin-top:32px;display:block;
+  }
+  .phi__content-col { grid-column:4/13; }
+  .phi__quote {
+    font-family:var(--f-q);font-size:clamp(24px,3vw,42px);font-weight:600;
+    line-height:1.12;letter-spacing:-0.025em;max-width:24ch;
+    color:var(--ink-d);text-align:left;margin-bottom:28px;
+  }
+  .phi__body {
+    font-family:var(--f-dm);font-size:15px;font-weight:300;color:var(--muted-d);
+    line-height:1.75;max-width:44ch;margin-bottom:36px;text-align:left;
+  }
+  .phi-pillars {
+    display:grid;grid-template-columns:repeat(3,1fr);
+    border-top:1px solid rgba(14,14,12,0.1);margin-top:48px;
+  }
+  .phi-pillar { padding:28px 28px 0 0;border-right:1px solid rgba(14,14,12,0.08); }
+  .phi-pillar:last-child { border-right:none;padding-right:0; }
+  .phi-pillar__n { font-family:var(--f-m);font-size:9px;letter-spacing:0.12em;color:var(--accent);display:block;margin-bottom:10px; }
+  .phi-pillar__title { font-family:var(--f-q);font-size:16px;font-weight:600;letter-spacing:-0.01em;line-height:1.3;color:var(--ink-d);margin-bottom:8px; }
+  .phi-pillar__desc { font-family:var(--f-dm);font-size:13px;font-weight:300;color:var(--muted-d);line-height:1.65;max-width:24ch; }
+
+  /* ═══════════════════════════════════════════════
+     S8 — THINKING · 2-col insight cards
+  ═══════════════════════════════════════════════ */
+  .think { padding: var(--s11) 0; background: var(--bg-deep); }
+  .think__head {
+    display:grid;grid-template-columns:repeat(12,1fr);column-gap:32px;margin-bottom:48px;align-items:baseline;
+  }
+  .think__hl-col { grid-column:1/7; }
+  .think__link-col { grid-column:10/13;display:flex;align-items:flex-end;justify-content:flex-end; }
+  .think__eyebrow { margin-bottom:16px; }
+  .think__h2 {
+    font-family:var(--f-q);font-size:clamp(32px,4vw,52px);font-weight:600;
+    line-height:1.06;letter-spacing:-0.025em;color:var(--ink);max-width:14ch;text-align:left;
+  }
+  .insight-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:24px; }
+
+  /* ── card base ── */
+  .insight-card {
+    cursor:pointer; display:flex; flex-direction:column;
+    position:relative;
+    border-top: 1px solid rgba(255,255,255,0.07);
+    padding-top: 20px;
+    transition: border-color 0.35s ease;
+  }
+  /* top accent line that expands on hover */
+  .insight-card::before {
+    content:''; position:absolute; top:-1px; left:0;
+    height:1px; width:0;
+    background: var(--accent);
+    transition: width 0.42s cubic-bezier(0.22,1,0.36,1);
+  }
+  .insight-card:hover::before { width:100%; }
+  .insight-card:hover { border-color: transparent; }
+
+  /* ── image wrap ── */
+  .insight-card__img-wrap {
+    aspect-ratio:3/2; overflow:hidden; border-radius:4px; margin-bottom:22px;
+    background:#181816; position:relative; flex-shrink:0;
+  }
+  /* blue tint overlay on hover */
+  .insight-card__img-wrap::after {
+    content:''; position:absolute; inset:0;
+    background: rgba(26,86,255,0.18);
+    opacity:0; transition: opacity 0.4s ease;
+    pointer-events:none; z-index:1;
+  }
+  .insight-card:hover .insight-card__img-wrap::after { opacity:1; }
+
+  .insight-card__img {
+    width:100%; height:100%; background:#181816; position:relative;
+    transition: transform 0.6s cubic-bezier(0.22,1,0.36,1);
+  }
+  .insight-card:hover .insight-card__img { transform:scale(1.07); }
+  .insight-card__img::before {
+    content:''; position:absolute; inset:0;
+    background:repeating-linear-gradient(-45deg,transparent 0,transparent 22px,rgba(255,255,255,0.025) 22px,rgba(255,255,255,0.025) 23px);
+  }
+  .insight-card__img-label {
+    position:absolute; bottom:14px; left:16px; z-index:2;
+    font-family:var(--f-m); font-size:9px; letter-spacing:0.12em;
+    text-transform:uppercase; color:rgba(255,255,255,0.18);
+  }
+
+  /* ── card number badge ── */
+  .insight-card__num {
+    position:absolute; top:24px; right:0;
+    font-family:var(--f-m); font-size:9px; letter-spacing:0.1em;
+    color:rgba(255,255,255,0.16); opacity:1;
+    transition: color 0.3s ease;
+  }
+  .insight-card:hover .insight-card__num { color: var(--accent); }
+
+  .insight-card__tag { margin-bottom:10px; }
+  .insight-card__title {
+    font-family:var(--f-q); font-size:clamp(16px,1.4vw,22px); font-weight:600;
+    line-height:1.22; letter-spacing:-0.02em;
+    color:var(--ink); margin-bottom:10px; text-align:left;
+    transition: color 0.3s ease;
+  }
+  .insight-card:hover .insight-card__title { color: #fff; }
+  .insight-card__sub {
+    font-family:var(--f-dm); font-size:15px; font-weight:300; color:var(--muted);
+    line-height:1.65; margin-bottom:20px; text-align:left; flex:1;
+  }
+
+  /* ── CTA arrow slides right on hover ── */
+  .insight-card .tlink {
+    display:inline-flex; align-items:center; gap:6px;
+    transition: color 0.25s ease, gap 0.25s cubic-bezier(0.22,1,0.36,1);
+  }
+  .insight-card:hover .tlink {
+    color: var(--accent); gap:10px;
+  }
+
+  /* ═══════════════════════════════════════════════
+     S9 — CLOSING
+  ═══════════════════════════════════════════════ */
+  .closing { background: var(--bg-mid); padding: var(--s11) 0; }
+  .closing__grid { display:grid;grid-template-columns:repeat(12,1fr);column-gap:32px;align-items:start; }
+  .closing__team-col { grid-column:1/7; }
+  .closing__loc-col { grid-column:7/13;padding-left:48px;border-left:1px solid rgba(255,255,255,0.07); }
+  .closing__eyebrow { margin-bottom:24px; }
+  .closing__h2 {
+    font-family:var(--f-q);font-size:clamp(34px,4.5vw,56px);font-weight:600;
+    line-height:1.06;letter-spacing:-0.025em;color:var(--ink);max-width:14ch;text-align:left;margin-bottom:20px;
+  }
+  .closing__body {
+    font-family:var(--f-dm);font-size:17px;font-weight:300;color:var(--muted);
+    line-height:1.75;max-width:42ch;margin-bottom:36px;text-align:left;
+  }
+  .closing__ctas { display:flex;align-items:center;gap:16px;flex-wrap:wrap; }
+  .loc-hd { font-family:var(--f-m);font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.25);margin-bottom:16px; }
+  .loc-list { list-style:none;margin-bottom:40px; }
+  .loc-item { display:flex;justify-content:space-between;align-items:baseline;padding:16px 0;border-bottom:1px solid rgba(255,255,255,0.07); }
+  .loc-item:first-child { border-top:1px solid rgba(255,255,255,0.07); }
+  .loc-city { font-family:var(--f-q);font-size:20px;font-weight:600;letter-spacing:-0.015em;color:rgba(255,255,255,0.8);text-align:left; }
+  .loc-code { font-family:var(--f-m);font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.25); }
+
+  /* ═══════════════════════════════════════════════
+     FOOTER
+  ═══════════════════════════════════════════════ */
+  footer { padding:56px 0 40px;background:var(--bg-deep);border-top:1px solid rgba(255,255,255,0.05); }
+  .footer__grid { display:grid;grid-template-columns:repeat(12,1fr);column-gap:32px;padding-bottom:48px;border-bottom:1px solid rgba(255,255,255,0.05); }
+  .fc-brand{grid-column:1/4;} .fc-sol{grid-column:4/7;} .fc-think{grid-column:7/10;} .fc-company{grid-column:10/13;}
+  .footer__logo { font-family:var(--f-dm);font-size:15px;font-weight:600;letter-spacing:-0.02em;color:var(--ink);display:flex;align-items:center;gap:6px;margin-bottom:8px; }
+  .footer__tagline { font-family:var(--f-q);font-size:13px;font-weight:400;color:rgba(255,255,255,0.28);letter-spacing:-0.01em;margin-bottom:32px; }
+  .footer__social { display:flex;gap:20px; }
+  .footer__social a { font-family:var(--f-m);font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.28);transition:color 0.2s; }
+  .footer__social a:hover { color:var(--ink); }
+  .fc-title { font-family:var(--f-m);font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.22);margin-bottom:16px; }
+  .fc-gap { margin-top:28px; }
+  .fc-links { list-style:none;display:flex;flex-direction:column;gap:8px; }
+  .fc-links a { font-family:var(--f-dm);font-size:13px;font-weight:300;color:rgba(255,255,255,0.38);transition:color 0.2s; }
+  .fc-links a:hover { color:var(--ink); }
+  .footer__btm { display:flex;justify-content:space-between;align-items:center;padding-top:24px; }
+  .footer__copy { font-family:var(--f-m);font-size:9px;letter-spacing:0.1em;color:rgba(255,255,255,0.2); }
+  .footer__legal { display:flex;gap:24px; }
+  .footer__legal a { font-family:var(--f-m);font-size:9px;letter-spacing:0.1em;color:rgba(255,255,255,0.2);transition:color 0.2s; }
+  .footer__legal a:hover { color:var(--ink); }
+
+  /* ═══════════════════════════════════════════════
+     RESPONSIVE
+  ═══════════════════════════════════════════════ */
+  @media (max-width: 860px) {
+    .hero__h1 { font-size: clamp(40px,8vw,72px); text-align:left; }
+    .hero__h1 .row1 { white-space: normal; }
+    .hero__l  { grid-template-columns: 1fr; width:100%; }
+    .hero__text { max-width: 100%; }
+    .hero__gif { width: 100%; opacity: 0.3; object-position: center center; }
+
+    .about__head-col  { grid-column:1/13; grid-row:1; }
+    .about__body-col  { grid-column:1/13; grid-row:2; border-left:none; padding-left:0; margin-top:40px; }
+
+    .services__split  { grid-template-columns:1fr; gap:48px; }
+    .services__left   { position:static; }
+
+    .work__hl-col,.work__link-col { grid-column:1/13; }
+    .work-grid { grid-template-columns:1fr; }
+    .work-card--wide { grid-column:span 1; }
+    .work-card--wide .work-card__img { aspect-ratio:16/7; }
+    .work-card--wide .work-card__body { grid-template-columns:1fr; }
+
+    .clients__hl-col { grid-column:1/13; }
+
+    .engage__hl-col,.engage__sub-col { grid-column:1/13; }
+    .engage__sub-col { margin-top:24px; }
+    .engage-cards { grid-template-columns:1fr; }
+
+    .phi__label-col,.phi__content-col { grid-column:1/13; }
+    .phi-pillars { grid-template-columns:1fr; }
+    .phi-pillar { border-right:none;border-bottom:1px solid rgba(14,14,12,0.08);padding-bottom:24px;padding-right:0; }
+    .phi-pillar:last-child { border-bottom:none; }
+
+    .insight-grid { grid-template-columns:1fr 1fr; gap:16px; }
+    .insight-grid .insight-card:last-child { grid-column: span 2; }
+    .think__hl-col,.think__link-col { grid-column:1/13; }
+
+    .closing__team-col,.closing__loc-col { grid-column:1/13; }
+    .closing__loc-col { padding-left:0;border-left:none;border-top:1px solid rgba(255,255,255,0.07);padding-top:40px;margin-top:40px; }
+
+    .fc-brand,.fc-sol,.fc-think,.fc-company { grid-column:span 6; }
+    .fc-brand { grid-column:1/13;margin-bottom:32px; }
+  }
+  @media (max-width: 600px) {
+    .nav__links { display:none; }
+    .hero__h1 { font-size:clamp(36px,11vw,58px); }
+    .hero__h1 .row1 { white-space: normal; }
+    .hero__foot { flex-direction:column;align-items:flex-start;gap:16px; }
+    .hero__est { display:none; }
+    .engage-cards { grid-template-columns:1fr; }
+    .fc-sol,.fc-think,.fc-company { grid-column:1/13; }
+    .footer__btm { flex-direction:column;gap:12px;align-items:flex-start; }
+  }
+  </style>
+</head>
+
+<body>
+
+<!-- NAV -->
+<nav class="nav" aria-label="Main navigation">
+  <div class="nav__in">
+    <a href="/" class="nav__logo">Zensciences <span class="adot"></span></a>
+    <ul class="nav__links" role="list">
+      <li><a href="#">Impact</a></li>
+      <li><a href="#">Solutions</a></li>
+      <li><a href="#">Thinking</a></li>
+      <li><a href="#">Careers</a></li>
+    </ul>
+    <a href="#" class="nav__act">Contact Us</a>
+  </div>
+</nav>
+
+
+<!-- S1 — HERO -->
+<section class="hero" aria-label="Hero">
+
+  <!-- GIF 3 — full-bleed bg ambience (behind A+B) -->
+  <img class="hero__gif--c" id="heroGifC"
+       src="zen/ea0230a06eb4c888067d1bf033504a9f.gif"
+       alt="" aria-hidden="true" draggable="false">
+  <!-- GIF sequence: light animation (3s) → dot loop -->
+  <img class="hero__gif hero__gif--a" id="heroGifA"
+       src="zen/a6be9e10419d44414f1ec59db0af7813.gif"
+       alt="" aria-hidden="true" draggable="false">
+  <img class="hero__gif hero__gif--b" id="heroGifB"
+       src="zen/cd36d4004e0eae0121d47758dd52507f.gif"
+       alt="" aria-hidden="true" draggable="false">
+  <div class="hero__overlay" aria-hidden="true"></div>
+
+  <!-- Text: bottom-left anchored -->
+  <div class="hero__l">
+    <div class="hero__text">
+      <div class="hero__kicker">
+        <div style="width:20px;height:1px;background:var(--accent);flex-shrink:0;" aria-hidden="true"></div>
+        <span class="label" style="color:rgba(255,255,255,0.42);">A global marketing agency</span>
+      </div>
+      <h1 class="hero__h1" aria-label="intellect. emotion. focus.">
+        <span class="row1">intellect.</span>
+        <span class="row2">emotion. <span class="hero__focus">focus.</span></span>
+      </h1>
+      <p class="hero__desc">A global marketing agency bridging the gap between business and creative outcomes.</p>
+      <div class="hero__foot">
+        <a href="#" class="hero__cta-link">Talk to us &nbsp;→</a>
+        <a href="#" class="hero__cta-secondary">View our work &nbsp;→</a>
+      </div>
+    </div>
+  </div>
+  <div class="hero__bottom-strip">
+    <div class="hero__strip-top">
+      <!-- LEFT: awards label + chips -->
+      <div class="hero__strip-awards">
+        <span class="label hero__aw-label" style="color:rgba(255,255,255,0.28);">Awards &amp; Recognitions</span>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <span class="aw-tag">Kyoorius</span>
+          <span class="aw-tag">Effie</span>
+          <span class="aw-tag">ABBY</span>
+          <span class="aw-tag">Spikes Asia</span>
+          <span class="aw-tag">D&amp;AD</span>
+        </div>
+      </div>
+      <!-- RIGHT: scroll indicator -->
+      <div class="hero__scroll-label" aria-hidden="true">
+        <span>Scroll for more</span><span class="scroll-arrow">↓</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- S2 — ABOUT · dark · image blend -->
+<section class="about" aria-label="About Zensciences">
+
+  <!-- ambient GIF bg — screen blend, full coverage, low opacity -->
+  <img class="about__bg-img"
+       src="zen/ea0230a06eb4c888067d1bf033504a9f.gif"
+       alt="" aria-hidden="true" draggable="false">
+
+  <div class="C">
+
+    <!-- meta bar: label + section number -->
+    <div class="about__meta sr">
+      <div class="about__meta-label">
+        <span class="about__meta-dot" aria-hidden="true"></span>
+        <span class="about__meta-tag">Who we are</span>
+      </div>
+      <span class="about__meta-num">// 02</span>
+    </div>
+
+    <!-- main content grid -->
+    <div class="about__grid">
+
+      <!-- Headline — oversized, left 7 cols -->
+      <div class="about__head-col sr sr-d1">
+        <h2 class="about__h2">It all starts with<br><span class="indent">your story.</span></h2>
+      </div>
+
+      <!-- Body + stats + CTA — right 5 cols -->
+      <div class="about__body-col sr sr-d2">
+        <p class="about__body">
+          An award-winning brand and digital marketing agency with expertise in strategy,
+          digital, design, storytelling, and technology. We bring the insight, experience,
+          and capabilities needed to realize opportunities and help customers solve business challenges.
+        </p>
+
+        <div class="about__stats">
+          <span class="about__stat"><span class="about__stat-val">10+</span> Years</span>
+          <span class="about__stat"><span class="about__stat-val">50+</span> Brands</span>
+          <span class="about__stat">Award Winning</span>
+        </div>
+
+        <a href="#" class="btn-pill-dk">Connect with us &nbsp;→</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- S3 — SERVICES · Sticky scroll split -->
+<section class="services" id="svcSection" aria-label="Our services">
+  <div class="services__scroll-track" id="svcScrollTrack">
+    <div class="services__sticky">
+
+      <!-- Left: placeholder image -->
+      <div class="services__img-col">
+        <div class="services__img-wrap">
+          <div class="services__img-gif">
+            <img src="zen/78a5ff90131c88c3e0fa328c54451c3e.gif" alt="" aria-hidden="true" draggable="false">
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: nav + detail -->
+      <div class="services__content-col">
+
+        <div class="services__top">
+          <p class="label services__eyebrow">What we do</p>
+          <h2 class="services__h2">Providing solutions that uplift your business.</h2>
+          <p class="services__intro">Inspired by intellect, emotion, and focus — we help drive growth for your business through every channel.</p>
+          <a href="#" class="btn btn-ghost">View all services &nbsp;→</a>
+
+          <nav class="svc-nav" id="svcNav" aria-label="Services navigation">
+            <span class="svc-nav__counter" id="svcCounter">01 / 04</span>
+            <ul class="svc-nav__list">
+              <li class="svc-nav__item active" data-idx="0">
+                <div class="svc-nav__row">
+                  <span class="svc-nav__arrow">→</span>
+                  <span class="svc-nav__label">Marketing Strategy &amp; Consulting</span>
+                </div>
+                <div class="svc-nav__content">
+                  <p class="svc-nav__desc">From insight to impact — we shape how brands compete and grow in complex, fast-moving markets. Strategy that connects business goals to human truth.</p>
+                </div>
+              </li>
+              <li class="svc-nav__item" data-idx="1">
+                <div class="svc-nav__row">
+                  <span class="svc-nav__arrow">→</span>
+                  <span class="svc-nav__label">Brand &amp; Design</span>
+                </div>
+                <div class="svc-nav__content">
+                  <p class="svc-nav__desc">Identity systems, visual language, and design thinking that define who you are. Built to stand for something — and stand out everywhere.</p>
+                </div>
+              </li>
+              <li class="svc-nav__item" data-idx="2">
+                <div class="svc-nav__row">
+                  <span class="svc-nav__arrow">→</span>
+                  <span class="svc-nav__label">Experience Design &amp; Technology</span>
+                </div>
+                <div class="svc-nav__content">
+                  <p class="svc-nav__desc">Human-centered digital experiences built for real outcomes. UX that converts. Technology that scales across every touchpoint.</p>
+                </div>
+              </li>
+              <li class="svc-nav__item" data-idx="3">
+                <div class="svc-nav__row">
+                  <span class="svc-nav__arrow">→</span>
+                  <span class="svc-nav__label">Content &amp; Storytelling</span>
+                </div>
+                <div class="svc-nav__content">
+                  <p class="svc-nav__desc">Ideas that move people. Stories that build businesses and make audiences act. From long-form to social — content with a spine.</p>
+                </div>
+              </li>
+            </ul>
+          </nav>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- S4 — WORK -->
+<section class="work" aria-label="Selected work">
+  <img class="work__bg-gif" src="zen/ea0230a06eb4c888067d1bf033504a9f.gif" alt="" aria-hidden="true" draggable="false">
+  <div class="C">
+    <div class="work__head">
+      <div class="work__hl-col">
+        <p class="label work__eyebrow sr">How we work</p>
+        <h2 class="work__h2 sr sr-d1">Ask for more.</h2>
+      </div>
+      <div class="work__link-col">
+        <a href="#" class="tlink sr sr-d2">View all work &nbsp;→</a>
+      </div>
+    </div>
+
+    <div class="work-grid" role="list">
+
+      <!-- CARD 1 — Strategy Development -->
+      <div class="work-card sr" role="listitem" tabindex="0">
+        <div class="work-card__top">
+          <span class="work-card__step">Step 1</span>
+        </div>
+        <div class="work-card__body">
+          <h3 class="work-card__title">Strategy<br>Development</h3>
+          <div class="work-card__reveal">
+            <div class="work-card__divider"></div>
+            <p class="work-card__desc">Craft a focused strategy that aligns client goals with market trends and brand values, turning insight into direction.</p>
+            <ul class="work-card__bullets">
+              <li>Define a clear brand message and value proposition.</li>
+              <li>Outline actionable steps to reach the target audience.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="work-card__img">
+          <div class="work-card__img-inner">
+            <!-- Lucide: route — Strategy Development -->
+            <svg class="work-card__svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="6" cy="19" r="3"/>
+              <path d="M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15"/>
+              <circle cx="18" cy="5" r="3"/>
+            </svg>
+          </div>
+        </div>
+        <div class="work-card__footer">
+          <span class="work-card__icon">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2">
+              <path d="M8 1v14M1 8h14"/>
+            </svg>
+          </span>
+          <span class="work-card__icon">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2">
+              <rect x="2" y="2" width="12" height="12"/>
+            </svg>
+          </span>
+        </div>
+      </div>
+
+      <!-- CARD 2 — Creative Concepting -->
+      <div class="work-card sr sr-d1" role="listitem" tabindex="0">
+        <div class="work-card__top">
+          <span class="work-card__step">Step 2</span>
+        </div>
+        <div class="work-card__body">
+          <h3 class="work-card__title">Creative<br>Concepting</h3>
+          <div class="work-card__reveal">
+            <div class="work-card__divider"></div>
+            <p class="work-card__desc">Develop creative concepts that transform strategy into engaging visual and narrative ideas that captivate audiences.</p>
+            <ul class="work-card__bullets">
+              <li>Brainstorm innovative ideas and design directions.</li>
+              <li>Create mood boards to visualize the creative direction.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="work-card__img">
+          <div class="work-card__img-inner">
+            <!-- Lucide: feather — Creative Concepting -->
+            <svg class="work-card__svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"/>
+              <line x1="16" x2="2" y1="8" y2="22"/>
+              <line x1="17.5" x2="9" y1="15" y2="15"/>
+            </svg>
+          </div>
+        </div>
+        <div class="work-card__footer">
+          <span class="work-card__icon">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2">
+              <circle cx="8" cy="8" r="6"/><circle cx="8" cy="8" r="2"/>
+            </svg>
+          </span>
+          <span class="work-card__icon">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2">
+              <path d="M2 8c2-4 10-4 12 0s-10 4-12 0z"/>
+            </svg>
+          </span>
+        </div>
+      </div>
+
+      <!-- CARD 3 — Execution & Implementation -->
+      <div class="work-card sr sr-d2" role="listitem" tabindex="0">
+        <div class="work-card__top">
+          <span class="work-card__step">Step 3</span>
+        </div>
+        <div class="work-card__body">
+          <h3 class="work-card__title">Execution &amp;<br>Implementation</h3>
+          <div class="work-card__reveal">
+            <div class="work-card__divider"></div>
+            <p class="work-card__desc">Bring creative ideas to life with efficient workflows, expert craftsmanship, and precise delivery across every channel.</p>
+            <ul class="work-card__bullets">
+              <li>Finalize design assets and launch materials.</li>
+              <li>Monitor performance and adjust strategy in real time.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="work-card__img">
+          <div class="work-card__img-inner">
+            <!-- Lucide: layers — Execution & Implementation -->
+            <svg class="work-card__svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/>
+              <path d="m6.08 9.5-3.52 1.6a1 1 0 0 0 0 1.83l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9a1 1 0 0 0 0-1.83L17.93 9.5"/>
+              <path d="m6.08 14.5-3.52 1.6a1 1 0 0 0 0 1.83l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9a1 1 0 0 0 0-1.83L17.93 14.5"/>
+            </svg>
+          </div>
+        </div>
+        <div class="work-card__footer">
+          <span class="work-card__icon">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2">
+              <path d="M1 13 L5 3 L9 10 L12 6 L15 13"/>
+            </svg>
+          </span>
+          <span class="work-card__icon">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2">
+              <rect x="1" y="1" width="6" height="6"/><rect x="9" y="1" width="6" height="6"/>
+              <rect x="1" y="9" width="6" height="6"/><rect x="9" y="9" width="6" height="6"/>
+            </svg>
+          </span>
+        </div>
+      </div>
+
+      <!-- CARD 4 — Measurement & Growth -->
+      <div class="work-card sr sr-d3" role="listitem" tabindex="0">
+        <div class="work-card__top">
+          <span class="work-card__step">Step 4</span>
+        </div>
+        <div class="work-card__body">
+          <h3 class="work-card__title">Measurement<br>&amp; Growth</h3>
+          <div class="work-card__reveal">
+            <div class="work-card__divider"></div>
+            <p class="work-card__desc">Analyse performance data to refine strategies, amplify what works, and continuously unlock new avenues for growth.</p>
+            <ul class="work-card__bullets">
+              <li>Track KPIs and map outcomes to brand objectives.</li>
+              <li>Iterate and scale winning strategies over time.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="work-card__img">
+          <div class="work-card__img-inner">
+            <!-- Lucide: gauge — Measurement & Growth -->
+            <svg class="work-card__svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="m12 14 4-4"/>
+              <path d="M3.34 19a10 10 0 1 1 17.32 0"/>
+            </svg>
+          </div>
+        </div>
+        <div class="work-card__footer">
+          <span class="work-card__icon">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2">
+              <path d="M8 2 L14 14 L8 11 L2 14 Z"/>
+            </svg>
+          </span>
+          <span class="work-card__icon">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2">
+              <circle cx="8" cy="8" r="6"/>
+              <path d="M8 5v3l2 2"/>
+            </svg>
+          </span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- S5 — CLIENTS · Horizontal scroll strip -->
+<section class="clients" aria-label="Client trust">
+  <div class="C">
+    <div class="clients__top">
+      <div class="clients__hl-col">
+        <p class="label clients__eyebrow sr">Trusted brands</p>
+        <h2 class="clients__h2 sr sr-d1">Ergo results. Trusted by<br>leading global brands.</h2>
+      </div>
+    </div>
+  </div>
+  <!-- Full-bleed horizontal scroll — no .C container so it bleeds edge-to-edge -->
+  <div class="clients-scroll sr sr-d2">
+    <div class="clients-track">
+      <span class="cl-name">Walmart</span><span class="cl-name">Microsoft</span>
+      <span class="cl-name">IBM</span><span class="cl-name">SAP</span>
+      <span class="cl-name">Infosys</span><span class="cl-name">Wipro</span>
+      <span class="cl-name">TCS</span><span class="cl-name">HCL</span>
+      <span class="cl-name">Accenture</span><span class="cl-name">Harman</span>
+      <span class="cl-name">Marriott</span><span class="cl-name">Bosch</span>
+      <span class="cl-name">McAfee</span><span class="cl-name">DHL</span>
+      <span class="cl-name">Nasscom</span><span class="cl-name">Cummins</span>
+      <span class="cl-name">Piramal</span><span class="cl-name">ABB</span>
+      <span class="cl-name">OYO</span><span class="cl-name">Accel</span>
+      <span class="cl-name">LTTS</span><span class="cl-name">Herbalife</span>
+      <span class="cl-name">Naukri</span><span class="cl-name">Birlasoft</span>
+      <span class="cl-name">Microland</span><span class="cl-name">WNS</span>
+      <span class="cl-name">Indegene</span><span class="cl-name">Tech Mahindra</span>
+      <span class="cl-name">Cyient</span><span class="cl-name">Zensar</span>
+      <span class="cl-name">Carrier</span><span class="cl-name">NSE</span>
+      <span class="cl-name">Collabera</span><span class="cl-name">Brillio</span>
+      <span class="cl-name">LTI</span><span class="cl-name">Tredence</span>
+      <span class="cl-name">Apexon</span><span class="cl-name">Informatica</span>
+      <span class="cl-name">Comviva</span><span class="cl-name">ZingHR</span>
+    </div>
+  </div>
+  <div style="height:var(--s11);"></div>
+</section>
+
+
+<!-- S6 — ENGAGEMENT MODELS -->
+<section class="engage" aria-label="Engagement models">
+  <div class="C">
+    <div class="engage__layout">
+
+      <!-- Left: sticky headline -->
+      <div class="engage__left sr">
+        <p class="label engage__eyebrow">How we work</p>
+        <h2 class="engage__h2">The power of Zen teams for your business.</h2>
+        <p class="engage__sub">Flexible engagement models designed to fit how you work — choose what drives the most impact for your goals.</p>
+        <a href="#" class="tlink tlink--accent">Learn more &nbsp;→</a>
+      </div>
+
+      <!-- Right: expandable rows -->
+      <div class="engage-rows sr sr-d1" role="list">
+
+        <div class="engage-row" role="listitem">
+          <div class="engage-row__head">
+            <span class="engage-row__num">01</span>
+            <h3 class="engage-row__title">Zen Teams</h3>
+            <span class="engage-row__icon">↗</span>
+          </div>
+          <div class="engage-row__body">
+            <p class="engage-row__desc">Dedicated embedded teams that work as a seamless extension of your own — fully aligned, always on.</p>
+          </div>
+        </div>
+
+        <div class="engage-row" role="listitem">
+          <div class="engage-row__head">
+            <span class="engage-row__num">02</span>
+            <h3 class="engage-row__title">Project-Based</h3>
+            <span class="engage-row__icon">↗</span>
+          </div>
+          <div class="engage-row__body">
+            <p class="engage-row__desc">Focused sprint engagements for defined briefs and outcomes — maximum impact in minimum time.</p>
+          </div>
+        </div>
+
+        <div class="engage-row" role="listitem">
+          <div class="engage-row__head">
+            <span class="engage-row__num">03</span>
+            <h3 class="engage-row__title">Retainer Model</h3>
+            <span class="engage-row__icon">↗</span>
+          </div>
+          <div class="engage-row__body">
+            <p class="engage-row__desc">Always-on strategic partnership for continuous growth — proactive, invested, and always moving forward.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+<!-- S8 — THINKING · Accent top break -->
+<section class="think section-accent-top" aria-label="Thinking and insights">
+  <div class="C">
+    <div class="think__head">
+      <div class="think__hl-col">
+        <p class="label think__eyebrow sr">Thinking</p>
+        <h2 class="think__h2 sr sr-d1">Zen Insights</h2>
+      </div>
+      <div class="think__link-col">
+        <a href="#" class="tlink sr sr-d2">All reports &nbsp;→</a>
+      </div>
+    </div>
+    <div class="insight-grid" role="list">
+
+      <!-- Card 1 -->
+      <div class="insight-card sr" role="listitem">
+        <span class="insight-card__num" aria-hidden="true">01</span>
+        <div class="insight-card__img-wrap">
+          <div class="insight-card__img"><span class="insight-card__img-label">Image placeholder</span></div>
+        </div>
+        <span class="label insight-card__tag">India Talent Trends Study</span>
+        <h3 class="insight-card__title">What does it take to build the future of workforce?</h3>
+        <p class="insight-card__sub">A deep dive into what's shaping how talent thinks, moves, and decides in the Zensciences India Talent Trends Study.</p>
+        <a href="#" class="tlink">View Report &nbsp;→</a>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="insight-card sr sr-d1" role="listitem">
+        <span class="insight-card__num" aria-hidden="true">02</span>
+        <div class="insight-card__img-wrap">
+          <div class="insight-card__img"><span class="insight-card__img-label">Image placeholder</span></div>
+        </div>
+        <span class="label insight-card__tag">Annual Design Report</span>
+        <h3 class="insight-card__title">Let's tap into what's steering the way ahead in design.</h3>
+        <p class="insight-card__sub">A Zensciences Annual Design Report — exploring the intersection of design thinking, business impact, and the experiences that define brands.</p>
+        <a href="#" class="tlink">View Report &nbsp;→</a>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="insight-card sr sr-d2" role="listitem">
+        <span class="insight-card__num" aria-hidden="true">03</span>
+        <div class="insight-card__img-wrap">
+          <div class="insight-card__img"><span class="insight-card__img-label">Image placeholder</span></div>
+        </div>
+        <span class="label insight-card__tag">Brand Strategy Report</span>
+        <h3 class="insight-card__title">How challenger brands are winning the attention economy.</h3>
+        <p class="insight-card__sub">From positioning to pipeline — Zensciences explores how emerging brands outpunch their weight in a noise-saturated, fast-moving market.</p>
+        <a href="#" class="tlink">View Report &nbsp;→</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- S9 — CLOSING -->
+<section class="closing" aria-label="Team and locations">
+  <div class="C">
+    <div class="closing__grid">
+      <div class="closing__team-col">
+        <p class="label closing__eyebrow sr" style="color:var(--muted);">The people</p>
+        <h2 class="closing__h2 sr sr-d1">We are<br>Zensciences.</h2>
+        <p class="closing__body sr sr-d2">Zensciences' in-house structure is built around experienced consultants, brand marketers, content specialists, art and experience designers, who stitch together engaging stories that match this changing paradigm.</p>
+        <div class="closing__ctas sr sr-d3">
+          <a href="#" class="btn btn-filled">Connect with us &nbsp;→</a>
+          <a href="#" class="btn btn-ghost">Join us &nbsp;→</a>
+        </div>
+      </div>
+      <div class="closing__loc-col sr sr-d1">
+        <p class="loc-hd">Our locations</p>
+        <ul class="loc-list" role="list">
+          <li class="loc-item"><span class="loc-city">Bengaluru</span><span class="loc-code">IND</span></li>
+          <li class="loc-item"><span class="loc-city">San Francisco</span><span class="loc-code">USA</span></li>
+          <li class="loc-item"><span class="loc-city">Houston</span><span class="loc-code">USA</span></li>
+          <li class="loc-item"><span class="loc-city">New Jersey</span><span class="loc-code">USA</span></li>
+          <li class="loc-item"><span class="loc-city">New York</span><span class="loc-code">USA</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- FOOTER -->
+<footer aria-label="Site footer">
+  <div class="C">
+    <div class="footer__grid">
+      <div class="fc-brand">
+        <p class="footer__logo">Zensciences <span class="adot"></span></p>
+        <p class="footer__tagline">intellect. emotion. focus.</p>
+        <div class="footer__social">
+          <a href="#">Instagram</a><a href="#">LinkedIn</a>
+        </div>
+      </div>
+      <div class="fc-sol">
+        <p class="fc-title">Solutions</p>
+        <ul class="fc-links">
+          <li><a href="#">Marketing Strategy and Consulting</a></li>
+          <li><a href="#">Brand and Design</a></li>
+          <li><a href="#">Marketing Shared Services</a></li>
+          <li><a href="#">Content and Storytelling</a></li>
+          <li><a href="#">UX/UI Design and Tech</a></li>
+          <li><a href="#">Digital Marketing</a></li>
+          <li><a href="#">Video Production</a></li>
+          <li><a href="#">Employer Branding</a></li>
+        </ul>
+      </div>
+      <div class="fc-think">
+        <p class="fc-title">Thinking</p>
+        <ul class="fc-links">
+          <li><a href="#">Digital Design Report</a></li>
+          <li><a href="#">Forbes Council</a></li>
+          <li><a href="#">Marketing Report 2022</a></li>
+          <li><a href="#">Marketing Report 2021</a></li>
+          <li><a href="#">Design Thinking</a></li>
+        </ul>
+      </div>
+      <div class="fc-company">
+        <p class="fc-title">Company</p>
+        <ul class="fc-links">
+          <li><a href="#">Impact</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Contact Us</a></li>
+        </ul>
+        <p class="fc-title fc-gap">We are here</p>
+        <ul class="fc-links">
+          <li><a href="#">Bengaluru, India</a></li>
+          <li><a href="#">San Francisco, USA</a></li>
+          <li><a href="#">Houston, USA</a></li>
+          <li><a href="#">New Jersey, USA</a></li>
+          <li><a href="#">New York, USA</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__btm">
+      <span class="footer__copy">© 2026 Zensciences. All rights reserved.</span>
+      <nav class="footer__legal">
+        <a href="#">Terms of Use</a>
+        <a href="#">Privacy Policy</a>
+      </nav>
+    </div>
+  </div>
+</footer>
+
+
+<script>
+/* Scroll reveal */
+(function(){
+  var els = document.querySelectorAll('.sr');
+  if (!('IntersectionObserver' in window)) { els.forEach(function(el){ el.classList.add('on'); }); return; }
+  var obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('on'); obs.unobserve(e.target); } });
+  }, { threshold: 0.06, rootMargin: '0px 0px -16px 0px' });
+  els.forEach(function(el){ obs.observe(el); });
+})();
+
+/* ─────────────────────────────────────────────
+   Services — sticky scroll interaction
+───────────────────────────────────────────── */
+(function () {
+  var track     = document.getElementById('svcScrollTrack');
+  var nav       = document.getElementById('svcNav');
+  var navItems  = document.querySelectorAll('.svc-nav__item');
+  var imgLayers = document.querySelectorAll('.services__img-layer');
+  var counter   = document.getElementById('svcCounter');
+
+  if (!track || !navItems.length) return;
+
+  var n = navItems.length;
+  var activeIdx = -1;
+
+  /* set scroll track height so section pins for full sequence */
+  track.style.height = (n * 100) + 'vh';
+
+  function pad(i) { return i < 10 ? '0' + i : '' + i; }
+
+  function setActive(idx) {
+    if (idx === activeIdx) return;
+    activeIdx = idx;
+
+    /* nav + inline content */
+    navItems.forEach(function (item, i) {
+      item.classList.toggle('active', i === idx);
+    });
+
+    /* image crossfade */
+    imgLayers.forEach(function (layer, i) {
+      layer.classList.toggle('active', i === idx);
+    });
+
+    /* counter */
+    counter.textContent = pad(idx + 1) + ' / ' + pad(n);
+  }
+
+  function onScroll() {
+    var rect    = track.getBoundingClientRect();
+    var scrolled = -rect.top;
+    var total   = track.offsetHeight - window.innerHeight;
+    var pct     = Math.max(0, Math.min(1, scrolled / total));
+    var idx     = Math.min(n - 1, Math.floor(pct * n));
+    if (scrolled > 0) nav.classList.add('scrolled');
+    setActive(idx);
+  }
+
+  /* init */
+  setActive(0);
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  /* click nav item → scroll to that service */
+  navItems.forEach(function (item) {
+    item.addEventListener('click', function () {
+      var idx      = parseInt(item.dataset.idx, 10);
+      var trackTop = track.getBoundingClientRect().top + window.pageYOffset;
+      var perStep  = (track.offsetHeight - window.innerHeight) / (n - 1);
+      window.scrollTo({ top: trackTop + idx * perStep, behavior: 'smooth' });
+    });
+  });
+})();
+
+/* ─────────────────────────────────────────────
+   Hero GIF loop: 1 → 2 → 1 → 2 … continuously
+───────────────────────────────────────────── */
+(function () {
+  var gifA   = document.getElementById('heroGifA');
+  var gifB   = document.getElementById('heroGifB');
+  var gifC   = document.getElementById('heroGifC');
+  if (!gifA || !gifB) return;
+
+  var HOLD      = 3000;   /* each gif plays for 3 s before cross-fade starts */
+  var onA       = true;   /* track which is currently showing                */
+  var cRevealed = false;  /* GIF C fades in only once, after first full cycle */
+
+  /* Restart a GIF from frame 1 by re-stamping its src */
+  function restart(img) {
+    var s = img.src; img.src = ''; img.src = s;
+  }
+
+  /* Kick off with GIF A fresh */
+  restart(gifA);
+
+  function showB() {
+    restart(gifB);
+    gifB.classList.add('gif-active');    /* B fades in  */
+    gifA.classList.add('gif-inactive');  /* A fades out */
+    onA = false;
+    setTimeout(showA, HOLD);
+  }
+
+  function showA() {
+    restart(gifA);
+    gifA.classList.remove('gif-inactive'); /* A fades back in  */
+    gifB.classList.remove('gif-active');   /* B fades back out */
+    onA = true;
+    /* Fade in GIF C on first return to A (after first full 1→2 cycle) */
+    if (!cRevealed && gifC) {
+      cRevealed = true;
+      restart(gifC);
+      gifC.classList.add('gif-active');
+    }
+    setTimeout(showB, HOLD);
+  }
+
+  /* Start the loop after first hold */
+  setTimeout(showB, HOLD);
+})();
+
+/* Clients drag-to-scroll */
+(function(){
+  var track = document.querySelector('.clients-scroll');
+  if (!track) return;
+  var isDown = false, startX, scrollLeft;
+  track.style.cursor = 'grab';
+  track.addEventListener('mousedown', function(e){ isDown=true; startX=e.pageX-track.offsetLeft; scrollLeft=track.scrollLeft; track.style.cursor='grabbing'; });
+  document.addEventListener('mouseup', function(){ isDown=false; if(track) track.style.cursor='grab'; });
+  track.addEventListener('mousemove', function(e){
+    if(!isDown) return; e.preventDefault();
+    track.scrollLeft = scrollLeft - (e.pageX - track.offsetLeft - startX) * 1.4;
+  });
+})();
+</script>
+
+</body>
+</html>
